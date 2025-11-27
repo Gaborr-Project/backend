@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const supabase = require("../../config/supabase");
 const auth = require("../../middleware/auth");
@@ -76,75 +74,5 @@ router.post(
     }
   }
 );
-
-//Get Loan Application
-router.get("loan-application", auth, async (req, res) => {
-  const { id } = req.query;
-
-  if (!id) {
-    return res.status(400).json({
-      success: false,
-      message: "User ID is required",
-    });
-  }
-  if (!id) {
-    return res.status(400).json({
-      success: false,
-      message: "User ID is required",
-    });
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from("student_histories")
-      .select(
-        `
-        *,
-        loan_details ( * )
-      `
-      )
-      .eq("user_id", id);
-
-    if (error) {
-      return res.status(500).json({
-        success: false,
-        message: "Failed to fetch loan applications",
-        error: error.message,
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: "Loan applications fetched successfully",
-      total: data.length,
-      data,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: err.message,
-    });
-  }
-});
-
-//update status
-router.put("loan-application", auth, async (req, res) => {
-  const { id, started, due, status } = req.body;
-  try {
-    const { data, error } = await supabase
-      .from("student_histories")
-      .update({ started, due, status })
-      .eq("id", id)
-      .select()
-      .single();
-
-    if (error) throw error;
-
-    res.status(200).json({ message: "Loan Application updated successfully" });
-  } catch (err) {
-    res.status(500).json({ message: "updated failed", error: err.message });
-  }
-});
 
 module.exports = router;

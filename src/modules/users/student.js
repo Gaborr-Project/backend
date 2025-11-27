@@ -90,11 +90,10 @@ router.post(
 );
 
 //Add Loan Application
-router.post("loan-application", auth, async (req, res) => {
+router.post("/loan-application", auth, async (req, res) => {
   const {
     id,
     totalLoan,
-    gracePeriod,
     tenor,
     purpose,
     description,
@@ -117,7 +116,6 @@ router.post("loan-application", auth, async (req, res) => {
         margin,
         installment,
         total_loan: totalLoan,
-        grace_period: gracePeriod,
         status: "PENDING",
       })
       .select()
@@ -179,7 +177,7 @@ router.post("loan-application", auth, async (req, res) => {
 });
 
 //Get Loan Application
-router.get("loan-application", auth, async (req, res) => {
+router.get("/loan-application", auth, async (req, res) => {
   const { id } = req.query;
 
   if (!id) {
@@ -229,8 +227,8 @@ router.get("loan-application", auth, async (req, res) => {
   }
 });
 
-//update status
-router.put("loan-application", auth, async (req, res) => {
+//Update Status Loan Application
+router.put("/loan-application", auth, async (req, res) => {
   const { id, started, due, status } = req.body;
   try {
     const { data, error } = await supabase
