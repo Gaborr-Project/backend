@@ -90,7 +90,7 @@ router.post(
 );
 
 //Add Loan Application
-router.post("/loan-application", auth, async (req, res) => {
+router.post("/loan-application", auth, upload.none(), async (req, res) => {
   const {
     id,
     totalLoan,
