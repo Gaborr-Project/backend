@@ -220,8 +220,8 @@ router.post("/register", auth, async (req, res) => {
 });
 
 // GET /:walletAddr
-router.get("/", auth, async (req, res) => {
-  const { walletAddr } = req.body;
+router.get("/:walletAddr", auth, async (req, res) => {
+  const { walletAddr } = req.params;
   const { data: user, error: userError } = await supabase
     .from("users")
     .select("id, wallet_address, full_name, email, status, no_telp")

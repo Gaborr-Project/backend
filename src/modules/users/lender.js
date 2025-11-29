@@ -61,7 +61,7 @@ router.post(
 
       const { data, error } = await supabase
         .from("users")
-        .update({ document: documentObj })
+        .update({ documents: documentObj })
         .eq("id", id)
         .select()
         .single();

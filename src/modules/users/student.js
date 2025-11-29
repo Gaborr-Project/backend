@@ -42,7 +42,7 @@ router.post(
 
       for (const key of ["ktm", "studentActiveInfo"]) {
         const file = req.files[key][0];
-        const folder = `kyc/${id}`;
+        const folder = `kyc-students/${id}`;
         const fileName = `${folder}/${key}.pdf`;
 
         const { error: uploadError } = await supabase.storage
@@ -75,7 +75,7 @@ router.post(
 
       const { data, error } = await supabase
         .from("users")
-        .update({ document: documentObj })
+        .update({ documents: documentObj })
         .eq("id", id)
         .select()
         .single();
